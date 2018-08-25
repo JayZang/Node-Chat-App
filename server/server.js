@@ -3,6 +3,7 @@ const http = require('http');
 const express = require('express');
 const socketIO = require('socket.io');
 
+const { isRealString } = require('./utils/validation')
 const { generateMessage, generateLocationMessage } = require('./utils/message');
 const publicPath = path.join(__dirname, '../public' )
 const port = process.env.PORT || 3000;
@@ -15,8 +16,19 @@ app.use(express.static(publicPath));
 io.on('connection', (socket) => {
   console.log('New user connect');
 
-  socket.emit('newMessage', generateMessage('Admin', 'Welcome to the chat app'))
-  socket.broadcast.emit('newMessage', generateMessage('Admin', 'New user joined'))
+  socket.on('join', (params, cb) => {
+    if(!isRealString(params.name) || !isRealString(params.room)){
+      cb('Name and roon name are required');
+    }
+
+    socket.join(params.room);
+    socket.emit('newMessage', generateMessage('Admin', 'Welcome to the chat app'))
+    // 指定某個群組
+    // 另一種方法，但自己也會收到訊息：
+    // io.to(params.room).emit('newMessage', generateMessage('Admin', `${params.name} joined`))
+    socket.broadcast.to(params.room).emit('newMessage', generateMessage('Admin', `${params.name} joined`))
+    cb();
+  })
 
   socket.on('createMessage', (msg, callback) => {
 

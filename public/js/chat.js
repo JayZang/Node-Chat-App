@@ -1,8 +1,29 @@
 var socket = io();
 
 socket.on('connect', function() {
-  console.log('Connect');
+  var params = getParams();
+
+  socket.emit('join', params, function(err) {
+    if(err){
+      alert(err);
+      window.location.href = '/';
+    } else {
+      console.log('No err')
+    }
+  })
 })
+
+function getParams() {
+  var paramsTxt = window.location.search.slice(1);
+  var paramsObj = {};
+  paramsTxt.split('&').forEach((item) => {
+    var key = item.split('=')[0];
+    var val = item.split('=')[1];
+    paramsObj[key] = val;
+  })
+
+  return paramsObj;
+}
 
 function scrollToBottom() {
   var messages = $("#messages");
