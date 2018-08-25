@@ -15,13 +15,31 @@ io.on('connection', (socket) => {
   console.log('New user connect');
 
   socket.emit('newMessage', {
-    from: 'John',
-    text: "My name is John",
-    createdAt: 1231234
+    from: 'Admin',
+    text: 'Welcome to the chat app'
+  })
+
+  socket.broadcast.emit('newMessage', {
+    from: 'Admin',
+    text: 'New user joined',
+    createAt: new Date().getTime()
   })
 
   socket.on('createMessage', function(msg) {
-    console.log('Create Msg:', msg)
+
+    // 包括自己所有socket都會傳送
+    // io.emit('newMessage', {
+    //   from: msg.from,
+    //   text: msg.text,
+    //   createdAt: new Date().getTime()
+    // })
+
+    // 除了目前 socket 的廣播
+    // socket.broadcast.emit('newMessage', {
+    //   from: msg.from,
+    //   text: msg.text,
+    //   createdAt: new Date().getTime()
+    // })
   })
 
   socket.on('disconnect', () => {
