@@ -3,6 +3,7 @@ const http = require('http');
 const express = require('express');
 const socketIO = require('socket.io');
 
+const { generateMessage } = require('./utils/message');
 const publicPath = path.join(__dirname, '../public' )
 const port = process.env.PORT || 3000;
 var app = express();
@@ -14,16 +15,8 @@ app.use(express.static(publicPath));
 io.on('connection', (socket) => {
   console.log('New user connect');
 
-  socket.emit('newMessage', {
-    from: 'Admin',
-    text: 'Welcome to the chat app'
-  })
-
-  socket.broadcast.emit('newMessage', {
-    from: 'Admin',
-    text: 'New user joined',
-    createAt: new Date().getTime()
-  })
+  socket.emit('newMessage', generateMessage('Admin', 'Welcome to the chat app'))
+  socket.broadcast.emit('newMessage', generateMessage('Admin', 'New user joined'))
 
   socket.on('createMessage', function(msg) {
 
@@ -35,11 +28,7 @@ io.on('connection', (socket) => {
     // })
 
     // 除了目前 socket 的廣播
-    // socket.broadcast.emit('newMessage', {
-    //   from: msg.from,
-    //   text: msg.text,
-    //   createdAt: new Date().getTime()
-    // })
+    socket.broadcast.emit('newMessage', generateMessage(msg.from, msg.text))
   })
 
   socket.on('disconnect', () => {
