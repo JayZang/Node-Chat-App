@@ -18,17 +18,14 @@ io.on('connection', (socket) => {
   socket.emit('newMessage', generateMessage('Admin', 'Welcome to the chat app'))
   socket.broadcast.emit('newMessage', generateMessage('Admin', 'New user joined'))
 
-  socket.on('createMessage', function(msg) {
+  socket.on('createMessage', (msg, callback) => {
 
     // 包括自己所有socket都會傳送
-    // io.emit('newMessage', {
-    //   from: msg.from,
-    //   text: msg.text,
-    //   createdAt: new Date().getTime()
-    // })
+    io.emit('newMessage',  generateMessage(msg.from, msg.text));
+    callback('This is from server');
 
     // 除了目前 socket 的廣播
-    socket.broadcast.emit('newMessage', generateMessage(msg.from, msg.text))
+    // socket.broadcast.emit('newMessage', generateMessage(msg.from, msg.text))
   })
 
   socket.on('disconnect', () => {
