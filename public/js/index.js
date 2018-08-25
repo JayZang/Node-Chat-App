@@ -7,10 +7,11 @@ socket.on('connect', function() {
 function scrollToBottom() {
   var messages = $("#messages");
 
+  var msgBoxScrollTop = messages.scrollTop();
   var newMsgOffsetTop = $("#messages .message:last-child").offset().top;
   var newMsgHeight =  $("#messages .message:last-child").height();
 
-  $("#messages").scrollTop(newMsgOffsetTop + newMsgHeight);
+  $("#messages").scrollTop(msgBoxScrollTop + newMsgOffsetTop + newMsgHeight);
 }
 
 socket.on('newMessage', function(msg) {
