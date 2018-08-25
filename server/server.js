@@ -39,7 +39,7 @@ io.on('connection', (socket) => {
   socket.on('createMessage', (msg, callback) => {
 
     // 包括自己所有socket都會傳送
-    io.emit('newMessage',  generateMessage(msg.from, msg.text));
+    io.emit('newMessage',  generateMessage(users.getUser(socket.id).name, msg.text));
     callback('This is from server');
 
     // 除了目前 socket 的廣播
