@@ -20,12 +20,15 @@
 
 #messages{
   flex-grow: 1;
+  overflow-y: scroll;
 }
 
 .chat_footer{
   display: flex;
   padding: 10px;
   background: #8080806b;
+  min-height: 40px;
+  box-sizing: content-box;
 }
 
 .chat_footer input,
@@ -45,7 +48,6 @@
 
 #message-form input{
   flex-grow: 1;
-  height: 30px;
   padding-left: 5px;
   overflow: hidden;
 }
