@@ -4,19 +4,27 @@
   <meta charset="utf-8">
   <title>Chat App</title>
 
+  <link rel="stylesheet" href="/css/style.css">
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 </head>
-<body>
-  <p>Welcome to the app</p>
+<body class="chat">
 
-  <ol id="messages">
-  </ol>
+  <div class="chat_sidebar">
+    <h3>People</h3>
+    <div id="users"></div>
+  </div>
 
-  <form id="message-form" action="/" method="GET">
-    <input type="text" name="message" placeholder="Message...">
-    <button type="submit">Send</button>
-  </form>
-  <button id="sendGeolacation" type="button">Send Location</button>
+  <div class="char_main">
+    <ol id="messages"></ol>
+
+    <div class="chat_footer">
+      <form id="message-form" action="/" method="GET">
+        <input type="text" name="message" placeholder="Message" autofocus="off">
+        <button type="submit">Send</button>
+      </form>
+      <button id="sendGeolacation" type="button">Send location</button>
+    </div>
+  </div>
 
   <script type="text/javascript" src="/socket.io/socket.io.js"></script>
   <script type="text/javascript" src="/js/index.js"></script>
