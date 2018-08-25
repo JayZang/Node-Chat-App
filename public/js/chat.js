@@ -35,6 +35,17 @@ function scrollToBottom() {
   $("#messages").scrollTop(msgBoxScrollTop + newMsgOffsetTop + newMsgHeight);
 }
 
+socket.on('updateUserList', function(users) {
+  var ol = $("<ol></ol>");
+
+  users.forEach((user) => {
+    var li = $("<li/>").text(user);
+    ol.append(li);
+  })
+
+  $("#users").html(ol);
+})
+
 socket.on('newMessage', function(msg) {
   var template = $("#message-template").html();
   var time = moment(msg.createAt).format('h:mm a');

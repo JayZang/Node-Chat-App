@@ -8,8 +8,27 @@
 .chat_sidebar{
   width: 20%;
   background: floralwhite;
-  padding: 0 20px;
   box-sizing: border-box;
+}
+
+.chat_sidebar h3{
+  padding: 0 20px;
+}
+
+#users{
+  padding: 0 10px;
+}
+
+#users ol{
+  padding: 0px;
+}
+
+#users li{
+  border-radius: 10px;
+  background: gainsboro;
+  list-style-type: none;
+  padding: 10px 15px;
+  margin: 10px 0;
 }
 
 .char_main{
