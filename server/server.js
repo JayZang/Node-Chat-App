@@ -37,20 +37,26 @@ io.on('connection', (socket) => {
   })
 
   socket.on('createMessage', (msg, callback) => {
+    var user = users.getUser(socket.id);
 
-    // 包括自己所有socket都會傳送
-    io.emit('newMessage',  generateMessage(users.getUser(socket.id).name, msg.text));
-    callback('This is from server');
+    if(user && isRealString(msg.text)){
+      // 包括自己所有socket都會傳送
+      io.to(user.room).emit('newMessage',  generateMessage(user.name, msg.text));
+      callback('This is from server');
 
-    // 除了目前 socket 的廣播
-    // socket.broadcast.emit('newMessage', generateMessage(msg.from, msg.text))
+      // 除了目前 socket 的廣播
+      // socket.broadcast.to(user.room).emit('newMessage', generateMessage(msg.from, msg.text))
+    }
   })
 
   socket.on('createLocationMessage', (position, callback) => {
+    var user = users.getUser(socket.id);
 
-    // 包括自己所有socket都會傳送
-    io.emit('newLocationMessage',  generateLocationMessage('Admin', position.lat, position.lng));
-    callback('This is from server');
+    if(user){
+      // 包括自己所有socket都會傳送
+      io.to(user.room).emit('newLocationMessage',  generateLocationMessage(users.getUser(socket.id).name, position.lat, position.lng));
+      callback('This is from server');
+    }
   })
 
   socket.on('disconnect', () => {
