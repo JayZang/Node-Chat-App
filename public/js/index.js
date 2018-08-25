@@ -4,6 +4,15 @@ socket.on('connect', function() {
   console.log('Connect');
 })
 
+function scrollToBottom() {
+  var messages = $("#messages");
+
+  var newMsgOffsetTop = $("#messages .message:last-child").offset().top;
+  var newMsgHeight =  $("#messages .message:last-child").height();
+
+  $("#messages").scrollTop(newMsgOffsetTop + newMsgHeight);
+}
+
 socket.on('newMessage', function(msg) {
   var template = $("#message-template").html();
   var time = moment(msg.createAt).format('h:mm a');
@@ -14,6 +23,7 @@ socket.on('newMessage', function(msg) {
   })
 
   $("#messages").append(html);
+  scrollToBottom();
 })
 
 socket.on('newLocationMessage', function(msg) {
@@ -26,6 +36,7 @@ socket.on('newLocationMessage', function(msg) {
   })
 
   $("#messages").append(html);
+  scrollToBottom();
 })
 
 $("#message-form").on("submit", function(e) {
