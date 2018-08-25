@@ -3,7 +3,7 @@ const http = require('http');
 const express = require('express');
 const socketIO = require('socket.io');
 
-const { generateMessage } = require('./utils/message');
+const { generateMessage, generateLocationMessage } = require('./utils/message');
 const publicPath = path.join(__dirname, '../public' )
 const port = process.env.PORT || 3000;
 var app = express();
@@ -26,6 +26,13 @@ io.on('connection', (socket) => {
 
     // 除了目前 socket 的廣播
     // socket.broadcast.emit('newMessage', generateMessage(msg.from, msg.text))
+  })
+
+  socket.on('createLocationMessage', (position, callback) => {
+
+    // 包括自己所有socket都會傳送
+    io.emit('newLocationMessage',  generateLocationMessage('Admin', position.lat, position.lng));
+    callback('This is from server');
   })
 
   socket.on('disconnect', () => {
