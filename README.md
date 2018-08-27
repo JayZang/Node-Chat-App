@@ -23,5 +23,5 @@ run App
 ```
 npm start
 ```
-Input url on your browser
+Input url on your browser: 
 [http://localhost:3000/](http://localhost:3000/)
